@@ -430,7 +430,7 @@
             content: "\1F37D\FE0F";
         }
         .icon-coffee::before {
-            content: "\1F389";
+            content: "☕";
         }
         .icon-reception::before {
             content: "\1F9ED";
