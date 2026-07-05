@@ -1,4 +1,4 @@
-﻿/* â”€â”€ reset & base â”€â”€ */
+﻿/* ── reset & base ── */
         * {
             margin: 0;
             padding: 0;
@@ -13,9 +13,9 @@
             color: #23304f;
         }
 
-        /* â”€â”€ outer agenda grid â”€â”€ */
+        /* ── outer agenda grid ── */
         .agenda-wrap {
-            max-width: 1600px;
+            max-width: 1800px;
             margin: 0 auto;
             background: #fff;
             border-radius: 28px;
@@ -27,7 +27,7 @@
             min-height: 780px;
         }
 
-        /* â”€â”€ LEFT PANEL â”€â”€ */
+        /* ── LEFT PANEL ── */
         .poster-left {
             position: relative;
             padding: 24px 16px 0 16px;
@@ -48,25 +48,45 @@
             display: none; /* removes blue decorative shapes */
         }
 
-        .poster-brand,
-        .poster-title,
+        .brand-title-row,
+        .poster-subtitle,
         .info-block,
         .agenda-btn {
             position: relative;
             z-index: 1;
         }
 
+        /* logo strictly on the left, title block strictly on the right */
+        .brand-title-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 8px;
+        }
+
         .poster-brand {
+            order: 0;
             display: flex;
             align-items: center;
             justify-content: center;
-            margin-bottom: 10px;
+            flex: 0 0 auto;
         }
         .poster-brand img {
-            width: 126px;
+            width: 220px;
             height: auto;
             object-fit: contain;
             display: block;
+        }
+
+        .poster-title {
+            order: 1;
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
         }
 
         .poster-title h1 {
@@ -75,22 +95,25 @@
             letter-spacing: -1px;
             font-weight: 800;
             color: #2f357f;
-            margin-bottom: 4px;
             text-align: center;
+            margin-bottom: 0;
         }
-        .poster-title h2 {
+
+        /* subtitle sits right under the h1, inside the same right-hand column */
+        .poster-subtitle {
             font-size: 16px;
             line-height: 1.08;
             font-weight: 700;
             color: #8b93cb;
             text-align: center;
+            margin-top: 6px;
             margin-bottom: 0;
         }
 
-        /* info block directly under subtitle, left-aligned */
+        /* info block directly under subtitle, centered */
         .info-block {
             display: flex;
-            justify-content: flex-start;
+            justify-content: center;
             align-items: center;
             gap: 28px;
             margin-top: 24px;    /* space between subtitle and date/location */
@@ -138,7 +161,7 @@
             align-self: flex-end; /* sticks to bottom of the panel */
         }
 
-        /* â”€â”€ RIGHT PANEL (agenda grid) â”€â”€ */
+        /* ── RIGHT PANEL (agenda grid) ── */
         .poster-right {
             padding: 12px 14px 18px 8px;
             background: #fff;
@@ -426,10 +449,10 @@
         .session-card.paper-second,
         .session-card.workshop-first,
         .session-card.workshop-second {
-            max-height: 170px;
+            max-height: auto;
         }
 
-        /* â”€â”€ FULLâ€‘WIDTH FOOTER â”€â”€ */
+        /* ── FULL‑WIDTH FOOTER ── */
         .footer-note {
             grid-row: 3 / 4;
             grid-column: 1 / 2;
@@ -470,7 +493,7 @@
                 padding: 14px;
             }
             .poster-brand img {
-                width: 80px;
+                width: 100px;
             }
         }
 
@@ -484,6 +507,12 @@
             .poster-left {
                 padding: 12px 12px 10px;
             }
+            /* restore the original stacked layout on mobile: logo on top, title below, both centered */
+            .brand-title-row {
+                flex-direction: column;
+                gap: 0;
+                margin-bottom: 10px;
+            }
             .poster-brand {
                 margin-bottom: 8px;
             }
@@ -493,7 +522,7 @@
             .poster-title h1 {
                 font-size: 23px;
             }
-            .poster-title h2 {
+            .poster-subtitle {
                 font-size: 13px;
             }
             .info-block {
@@ -501,6 +530,7 @@
                 margin-bottom: 12px;
                 gap: 10px;
                 flex-direction: row;
+                justify-content: flex-start;
                 align-items: flex-start;
                 flex-wrap: wrap;
             }
@@ -534,6 +564,7 @@
                 -webkit-overflow-scrolling: touch;
             }
             .schedule-grid {
+                overflow-x: visible; /* poster-right is the only scroll container here */
                 grid-template-columns: 60px repeat(5, 220px);
                 gap: 10px;
                 width: max-content;
@@ -546,6 +577,11 @@
                 min-height: 52px;
                 font-size: 12px;
                 padding: 6px 4px;
+                position: sticky;
+                left: 0;
+                z-index: 2;
+                background: #f1f3fb;
+                box-shadow: 2px 0 4px rgba(35, 40, 90, .08);
             }
             .day-header {
                 min-height: 58px;
