@@ -1,460 +1,10 @@
-<!DOCTYPE html>
+﻿<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>IFIP Summer School 2026 – Full Agenda</title>
-    <style>
-        /* ── reset & base ── */
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
-        body {
-            min-height: 100vh;
-            padding: 24px;
-            background: radial-gradient(circle at 12% 10%, rgba(255, 255, 255, .9) 0 10%, transparent 11%),
-                linear-gradient(135deg, #f4f5fb 0%, #eef0f8 100%);
-            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
-            color: #23304f;
-        }
-
-        /* ── outer agenda grid ── */
-        .agenda-wrap {
-            max-width: 1480px;
-            margin: 0 auto;
-            background: #fff;
-            border-radius: 28px;
-            overflow: hidden;
-            box-shadow: 0 24px 64px rgba(35, 40, 90, .14);
-            display: grid;
-            grid-template-columns: 15% 85%;
-            grid-template-rows: 1fr auto;   /* main content + footer row */
-            min-height: 780px;
-        }
-
-        /* ── LEFT PANEL ── */
-        .poster-left {
-            position: relative;
-            padding: 24px 16px 22px 16px;
-            background:
-                linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .96)),
-                url('image-2.jpg') left center/cover no-repeat;
-            display: flex;
-            flex-direction: column;
-            justify-content: flex-start; /* content starts from top */
-            overflow: hidden;
-            color: #2f357f;
-            grid-row: 1 / 2;
-            grid-column: 1 / 2;
-        }
-        .poster-left::before,
-        .poster-left::after {
-            display: none; /* removes blue decorative shapes */
-        }
-
-        .poster-brand,
-        .poster-title,
-        .info-block,
-        .agenda-btn {
-            position: relative;
-            z-index: 1;
-        }
-
-        .poster-brand {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin-bottom: 10px;
-        }
-        .poster-brand img {
-            width: 110px;
-            height: auto;
-            object-fit: contain;
-            display: block;
-        }
-
-        .poster-title h1 {
-            font-size: 36px;
-            line-height: .95;
-            letter-spacing: -1px;
-            font-weight: 800;
-            color: #2f357f;
-            margin-bottom: 4px;
-            text-align: center;
-        }
-        .poster-title h2 {
-            font-size: 14px;
-            line-height: 1.08;
-            font-weight: 700;
-            color: #8b93cb;
-            text-align: center;
-            margin-bottom: 0;
-        }
-
-        /* ── info block – directly under subtitle, left‑aligned ── */
-        .info-block {
-            display: grid;
-            gap: 12px;
-            margin-top: 24px;    /* space between subtitle and date/location */
-            margin-bottom: 0;
-        }
-        .info-row {
-            display: flex;
-            align-items: flex-start;
-            gap: 10px;
-            font-size: 13px;
-            font-weight: 700;
-            color: #2f357f;
-            justify-content: flex-start; /* left‑aligned horizontally */
-        }
-        .info-icon {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: #2f357f;
-            color: #fff;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 15px;
-            flex: 0 0 auto;
-            margin-top: 1px;
-        }
-
-        .agenda-btn {
-            width: 100%;
-            background: #2f357f;
-            color: #fff;
-            text-align: center;
-            font-size: 18px;
-            font-weight: 800;
-            letter-spacing: .5px;
-            border-radius: 12px;
-            padding: 12px 14px;
-            box-shadow: 0 16px 30px rgba(47, 53, 127, .22);
-            margin-top: 24px;    /* pushes the button down but keeps it above the bottom */
-            align-self: flex-end; /* sticks to bottom of the panel */
-        }
-
-        /* ── RIGHT PANEL (agenda grid) ── */
-        .poster-right {
-            padding: 10px 12px 18px 6px;
-            background: #fff;
-            overflow: hidden;
-            grid-row: 1 / 2;
-            grid-column: 2 / 3;
-        }
-
-        .schedule-grid {
-            display: grid;
-            grid-template-columns: 56px repeat(5, minmax(0, 1fr));
-            gap: 8px;
-            align-items: stretch;
-        }
-        .grid-item {
-            min-height: 42px;
-        }
-
-        .time-col {
-            background: #f1f3fb;
-            border-radius: 12px;
-            min-height: 42px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: 800;
-            color: #2f357f;
-            font-size: 10px;
-            line-height: 1.08;
-            padding: 4px 2px;
-            white-space: pre-line;
-        }
-
-        .day-header {
-            background: #2f357f;
-            color: #fff;
-            border-radius: 0 0 12px 12px;
-            min-height: 52px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            text-align: center;
-            font-weight: 800;
-            font-size: 12px;
-            line-height: 1.15;
-            padding: 6px 4px;
-        }
-
-        .slot-empty {
-            background: transparent;
-        }
-        .slot-break {
-            background: #efeffd;
-            border-radius: 10px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 4px;
-            color: #2f357f;
-            font-weight: 800;
-            font-size: 10px;
-            min-height: 42px;
-            text-align: center;
-            padding: 4px 6px;
-        }
-
-        .session-card {
-            height: 100%;
-            min-height: 42px;
-            border-radius: 10px;
-            padding: 8px 8px 7px;
-            background: #fff;
-            box-shadow: 0 1px 0 rgba(20, 20, 60, .04), 0 3px 10px rgba(25, 30, 90, .05);
-            border-top: 4px solid #b9bce6;
-            font-size: 10px;
-            line-height: 1.18;
-            color: #23304f;
-            overflow: hidden;
-        }
-        .session-card.keynote {
-            background: #efeffd;
-            border-top-color: #d7d7fb;
-            color: #2f357f;
-            text-align: center;
-            font-weight: 700;
-        }
-        .session-card.special {
-            background: #efeffd;
-            border-top-color: #d7d7fb;
-            color: #2f357f;
-            text-align: center;
-            font-weight: 700;
-        }
-        .session-card.empty-session {
-            background: #fbfbff;
-            border-top-color: #e3e4f3;
-            color: #a0a6c1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-style: italic;
-            text-align: center;
-        }
-
-        /* Paper sessions */
-        .session-card.paper-first {
-            background: #ffffff;
-            border-top-color: #b9bce6;
-            color: #23304f;
-        }
-        .session-card.paper-second {
-            background: #F0F9ED;
-            border-top-color: #b9bce6;
-            color: #1a3a1a;
-        }
-        .session-card.paper-second .session-type {
-            color: #2d5a2d;
-        }
-        .session-card.paper-second .session-roomlabel {
-            color: #2d5a2d;
-        }
-        .session-card.paper-second .session-chair {
-            color: #2d5a2d;
-        }
-        .session-card.paper-second .paper-link {
-            color: #1a3a1a;
-        }
-
-        /* Workshops */
-        .session-card.workshop-first {
-            background: #FDF8F5;
-            border-top-color: #f3cf77;
-            color: #4d2e1a;
-        }
-        .session-card.workshop-first .session-type {
-            color: #7a4d2a;
-        }
-        .session-card.workshop-first .session-roomlabel {
-            color: #7a4d2a;
-        }
-        .session-card.workshop-first .session-chair {
-            color: #7a4d2a;
-        }
-        .session-card.workshop-second {
-            background: #FFFFE1;
-            border-top-color: #f3cf77;
-            color: #3d3d1a;
-        }
-        .session-card.workshop-second .session-type {
-            color: #6b6b2a;
-        }
-        .session-card.workshop-second .session-roomlabel {
-            color: #6b6b2a;
-        }
-        .session-card.workshop-second .session-chair {
-            color: #6b6b2a;
-        }
-
-        .slot-row {
-            display: flex;
-            gap: 6px;
-            height: 100%;
-        }
-        .slot-row .session-card {
-            flex: 1 1 0;
-            min-width: 0;
-        }
-        .session-type {
-            display: block;
-            font-weight: 900;
-            font-size: 9px;
-            letter-spacing: .3px;
-            text-transform: uppercase;
-            color: #7a80a3;
-            margin-bottom: 1px;
-        }
-        .session-name {
-            display: block;
-            font-weight: 900;
-            font-size: 10.5px;
-            color: inherit;
-            margin-bottom: 1px;
-            line-height: 1.2;
-        }
-        .session-roomline {
-            display: flex;
-            align-items: center;
-            gap: 4px;
-            margin-top: 1px;
-            margin-bottom: 2px;
-            flex-wrap: wrap;
-        }
-        .session-roomlabel {
-            font-weight: 900;
-            font-size: 9px;
-            letter-spacing: .15px;
-            color: #6f7696;
-        }
-        .room-link-blue,
-        .room-link-purple {
-            display: inline-block;
-            text-decoration: none;
-            font-weight: 900;
-            font-size: 9px;
-            line-height: 1;
-            padding: 2px 7px;
-            border-radius: 999px;
-        }
-        .room-link-blue {
-            color: #7280e4;
-            background: #eef1ff;
-        }
-        .room-link-purple {
-            color: #96b751;
-            background: #f2f8e5;
-        }
-        .session-chair {
-            display: block;
-            margin-top: 1px;
-            font-weight: 700;
-            color: #6b7190;
-            font-size: 9.5px;
-        }
-        .paper-list {
-            margin-top: 4px;
-            padding-left: 12px;
-            font-size: 9px;
-            line-height: 1.25;
-        }
-        .paper-list li {
-            margin-bottom: 1px;
-        }
-        .paper-link {
-            color: inherit;
-            text-decoration: underline;
-            cursor: pointer;
-        }
-
-        .icon-lunch::before {
-            content: "🍽️";
-        }
-        .icon-coffee::before {
-            content: "☕";
-        }
-        .icon-reception::before {
-            content: "🎉";
-        }
-        .icon-activity::before {
-            content: "🧭";
-        }
-        .icon-dinner::before {
-            content: "🍷";
-        }
-        .ico {
-            font-size: 14px;
-        }
-
-        /* ── FULL‑WIDTH FOOTER ── */
-        .footer-note {
-            grid-row: 2 / 3;
-            grid-column: 1 / -1;
-            padding: 12px 24px;
-            font-size: 12px;
-            color: #5a5f7a;
-            text-align: left;
-            border-top: 1px solid #e9ebf5;
-            background: #fafaff;
-        }
-        .footer-note a {
-            color: #2f357f;
-            text-decoration: none;
-            font-weight: 800;
-        }
-        .footer-note a:hover {
-            text-decoration: underline;
-        }
-
-        @media (max-width: 1200px) {
-            .agenda-wrap {
-                grid-template-columns: 1fr;
-                grid-template-rows: auto auto auto;
-            }
-            .poster-left {
-                grid-row: 1 / 2;
-                grid-column: 1 / 2;
-                min-height: 420px;
-            }
-            .poster-right {
-                grid-row: 2 / 3;
-                grid-column: 1 / 2;
-            }
-            .footer-note {
-                grid-row: 3 / 4;
-                grid-column: 1 / 2;
-            }
-        }
-        @media (max-width: 900px) {
-            body {
-                padding: 12px;
-            }
-            .schedule-grid {
-                grid-template-columns: 52px repeat(5, minmax(140px, 1fr));
-                overflow-x: auto;
-            }
-            .poster-title h1 {
-                font-size: 26px;
-            }
-            .poster-left {
-                padding: 14px;
-            }
-            .poster-brand img {
-                width: 80px;
-            }
-        }
-    </style>
+    <title>IFIP Summer School 2026 - Full Agenda</title>
+    <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <div class="agenda-wrap">
@@ -462,33 +12,34 @@
         <!-- ====== LEFT PANEL ====== -->
         <section class="poster-left">
             <div>
-                <div class="poster-brand">
-                    <img src="image.png" alt="IFIP logo" />
-                </div>
-                <div class="poster-title">
-                    <h1>IFIP<br />SUMMER<br />SCHOOL</h1>
-                    <h2>Privacy &amp; Identity Management</h2>
+                <div class="brand-title-row">
+                    <div class="poster-brand">
+                        <img src="IMG/image.png" alt="IFIP logo" />
+                    </div>
+                    <div class="poster-title">
+                        <h1>IFIP<br />SUMMER<br />SCHOOL</h1>
+                        <h2 class="poster-subtitle">Privacy &amp; Identity Management</h2>
+                    </div>
                 </div>
             </div>
 
-            <!-- info block – now directly below subtitle, left‑aligned -->
+            <!-- info block now directly below subtitle, left-aligned -->
             <div class="info-block">
                 <div class="info-row">
-                    <div class="info-icon">📅</div>
-                    <div>10–14<br />August 2026</div>
+                    <div class="info-icon">&#128197;</div>
+                    <div>10-14 August 2026</div>
                 </div>
                 <div class="info-row">
-                    <div class="info-icon">📍</div>
-                    <div>De Valk 3,<br />Leuven BE</div>
+                    <div class="info-icon">&#128205;</div>
+                    <div>De Valk 3, Leuven BE</div>
                 </div>
             </div>
 
-            <!-- agenda button stays at the bottom -->
-            <div class="agenda-btn">AGENDA</div>
         </section>
 
         <!-- ====== RIGHT PANEL ====== -->
         <section class="poster-right">
+            <div class="agenda-btn">AGENDA</div>
             <div class="schedule-grid">
 
                 <!-- headers -->
@@ -499,7 +50,7 @@
                 <div class="grid-item day-header">Thursday<br />13 Aug</div>
                 <div class="grid-item day-header">Friday<br />14 Aug</div>
 
-                <!-- 09:00–09:15 -->
+                <!-- 09:00-09:15 -->
                 <div class="grid-item time-col">09:00<br />09:15</div>
                 <div class="grid-item slot-empty"></div>
                 <div class="grid-item slot-break">Registration</div>
@@ -507,7 +58,7 @@
                 <div class="grid-item slot-break">Registration</div>
                 <div class="grid-item slot-break">Registration</div>
 
-                <!-- 09:15–10:15 -->
+                <!-- 09:15-10:15 -->
                 <div class="grid-item time-col">09:15<br />10:15</div>
                 <div class="grid-item slot-empty"></div>
                 <div class="grid-item">
@@ -535,7 +86,7 @@
                     </div>
                 </div>
 
-                <!-- 10:15–10:30 -->
+                <!-- 10:15-10:30 -->
                 <div class="grid-item time-col">10:15<br />10:30</div>
                 <div class="grid-item slot-empty"></div>
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
@@ -543,13 +94,10 @@
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
 
-                <!-- 10:30–12:30 -->
+                <!-- 10:30-12:30 -->
                 <div class="grid-item time-col">10:30<br />12:30</div>
                 <div class="grid-item">
-                    <div class="slot-row">
-                        <div class="session-card empty-session">No session</div>
-                        <div class="session-card empty-session">No session</div>
-                    </div>
+                    <div class="session-card empty-session">No session</div>
                 </div>
 
                 <!-- TUESDAY: Generative AI (1/2) @ DV01.07 | Digital Identity (1/2) @ DV01.10 -->
@@ -572,7 +120,7 @@
                         <div class="session-card paper-second">
                             <span class="session-type">Paper session</span>
                             <span class="session-name">Digital Identity, Wallets, and Decentralized Systems (1/2)</span>
-                            <span class="session-chair">Chair: Simone Fischer-Hübner</span>
+                            <span class="session-chair">Chair: Simone Fischer-HÃ¼bner</span>
                             <span class="session-roomline">
                                 <span class="session-roomlabel">Room:</span>
                                 <a class="room-link-purple" href="https://www.kuleuven.be/kulag/nl/lokaal/103-03-010010/onderwijs" target="_blank">DV3 01.10</a>
@@ -688,10 +236,10 @@
                     </div>
                 </div>
 
-                <!-- 12:30–14:00 -->
+                <!-- 12:30-14:00 -->
                 <div class="grid-item time-col">12:30<br />14:00</div>
                 <div class="grid-item">
-                    <div class="session-card special"><span class="session-name">13:45 – 14:00</span><span class="session-type">Opening session</span></div>
+                    <div class="session-card special"><span class="session-name">13:45 - 14:00</span><span class="session-type">Opening session</span></div>
                 </div>
                 <div class="grid-item">
                     <div class="session-card special"><span class="icon-lunch"></span><span class="session-name">Lunch</span></div>
@@ -706,7 +254,7 @@
                     <div class="session-card special"><span class="session-name">Closing remarks &amp; Best Paper Award</span><span class="session-chair">Lunch from 13:00</span></div>
                 </div>
 
-                <!-- 14:00–15:00 -->
+                <!-- 14:00-15:00 -->
                 <div class="grid-item time-col">14:00<br />15:00</div>
                 <div class="grid-item">
                     <div class="session-card keynote"><span class="session-name">Keynote 1: Bart Preneel</span><span class="session-chair"><a class="room-link-blue" href="https://www.kuleuven.be/kulag/nl/lokaal/103-03-010007/onderwijs" target="_blank">DV3 01.07</a></span></div>
@@ -722,7 +270,7 @@
                 </div>
                 <div class="grid-item slot-empty"></div>
 
-                <!-- 15:00–15:30 -->
+                <!-- 15:00-15:30 -->
                 <div class="grid-item time-col">15:00<br />15:30</div>
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
@@ -730,7 +278,7 @@
                 <div class="grid-item slot-break"><span class="ico icon-coffee"></span>Coffee break</div>
                 <div class="grid-item slot-empty"></div>
 
-                <!-- 15:30–17:00 -->
+                <!-- 15:30-17:00 -->
                 <div class="grid-item time-col">15:30<br />17:00</div>
 
                 <!-- MONDAY: PETs (1/2) @ DV01.07 | Privacy Literacy (1/2) @ DV01.10 -->
@@ -760,7 +308,7 @@
                             </span>
                             <ul class="paper-list">
                                 <li><a href="#" class="paper-link">The "surveillance vs. privacy" paradigm: a theoretical critique</a></li>
-                                <li><a href="#" class="paper-link">Schrödinger's Crisis: Evaluating the possibility of a standards-driven power creep in IoT cybersecurity</a></li>
+                                <li><a href="#" class="paper-link">SchrÃ¶dinger's Crisis: Evaluating the possibility of a standards-driven power creep in IoT cybersecurity</a></li>
                                 <li><a href="#" class="paper-link">Hunting for Bits in the Shadow of Regulation: Entropy-Based Characterization of Compiler-Induced Side-Channel Leaks</a></li>
                             </ul>
                         </div>
@@ -851,13 +399,10 @@
 
                 <!-- FRIDAY: no sessions -->
                 <div class="grid-item">
-                    <div class="slot-row">
-                        <div class="session-card empty-session">No session</div>
-                        <div class="session-card empty-session">No session</div>
-                    </div>
+                    <div class="session-card empty-session">No session</div>
                 </div>
 
-                <!-- 17:00–18:00 -->
+                <!-- 17:00-18:00 -->
                 <div class="grid-item time-col">17:00<br />18:00</div>
                 <div class="grid-item">
                     <div class="session-card special"><span class="icon-reception"></span><span class="session-name">Welcoming Reception</span></div>
@@ -890,7 +435,7 @@
             <!-- footer moved out of schedule-grid -->
         </section>
 
-        <!-- ====== FULL‑WIDTH FOOTER ====== -->
+        <!-- ====== FULLâ€‘WIDTH FOOTER ====== -->
         <div class="footer-note">
             <a href="https://www.kuleuven.be/kulag/nl/lokaal/103-03-010007/onderwijs" target="_blank">DV3 01.07</a> and
             <a href="https://www.kuleuven.be/kulag/nl/lokaal/103-03-010010/onderwijs" target="_blank">DV3 01.10</a> are room codes.

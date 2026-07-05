@@ -1,0 +1,635 @@
+﻿/* ── reset & base ── */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            min-height: 100vh;
+            padding: 24px;
+            background: radial-gradient(circle at 12% 10%, rgba(255, 255, 255, .9) 0 10%, transparent 11%),
+                linear-gradient(135deg, #f4f5fb 0%, #eef0f8 100%);
+            font-family: 'Inter', 'Segoe UI', Roboto, system-ui, sans-serif;
+            color: #23304f;
+        }
+
+        /* ── outer agenda grid ── */
+        .agenda-wrap {
+            max-width: 1800px;
+            margin: 0 auto;
+            background: #fff;
+            border-radius: 28px;
+            overflow: hidden;
+            box-shadow: 0 24px 64px rgba(35, 40, 90, .14);
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: auto auto auto;   /* top panel + agenda + footer */
+            min-height: 780px;
+        }
+
+        /* ── LEFT PANEL ── */
+        .poster-left {
+            position: relative;
+            padding: 24px 16px 0 16px;
+            background:
+                linear-gradient(180deg, rgba(255, 255, 255, .82), rgba(255, 255, 255, .96)),
+                url('IMG/image-2.jpg') left center/cover no-repeat;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-start; /* content starts from top */
+            overflow: hidden;
+            color: #2f357f;
+            grid-row: 1 / 2;
+            grid-column: 1 / 2;
+            min-height: 0;
+        }
+        .poster-left::before,
+        .poster-left::after {
+            display: none; /* removes blue decorative shapes */
+        }
+
+        .brand-title-row,
+        .poster-subtitle,
+        .info-block,
+        .agenda-btn {
+            position: relative;
+            z-index: 1;
+        }
+
+        /* logo strictly on the left, title block strictly on the right */
+        .brand-title-row {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            gap: 28px;
+            margin-bottom: 8px;
+        }
+
+        .poster-brand {
+            order: 0;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            flex: 0 0 auto;
+        }
+        .poster-brand img {
+            width: 220px;
+            height: auto;
+            object-fit: contain;
+            display: block;
+        }
+
+        .poster-title {
+            order: 1;
+            flex: 0 0 auto;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .poster-title h1 {
+            font-size: 42px;
+            line-height: .95;
+            letter-spacing: -1px;
+            font-weight: 800;
+            color: #2f357f;
+            text-align: center;
+            margin-bottom: 0;
+        }
+
+        /* subtitle sits right under the h1, inside the same right-hand column */
+        .poster-subtitle {
+            font-size: 16px;
+            line-height: 1.08;
+            font-weight: 700;
+            color: #8b93cb;
+            text-align: center;
+            margin-top: 6px;
+            margin-bottom: 0;
+        }
+
+        /* info block directly under subtitle, centered */
+        .info-block {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 28px;
+            margin-top: 24px;    /* space between subtitle and date/location */
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+        .info-row {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-size: 14px;
+            font-weight: 700;
+            color: #2f357f;
+            justify-content: center;
+            text-align: left;
+        }
+        .info-row > div:last-child {
+            white-space: nowrap;
+        }
+        .info-icon {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background: #2f357f;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 17px;
+            flex: 0 0 auto;
+            margin-top: 1px;
+        }
+
+        .agenda-btn {
+            width: 100%;
+            background: #2f357f;
+            color: #fff;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 800;
+            letter-spacing: .5px;
+            border-radius: 12px 12px 0 0;
+            padding: 12px 14px;
+            margin-bottom: 10px;
+            align-self: flex-end; /* sticks to bottom of the panel */
+        }
+
+        /* ── RIGHT PANEL (agenda grid) ── */
+        .poster-right {
+            padding: 12px 14px 18px 8px;
+            background: #fff;
+            overflow: hidden;
+            grid-row: 2 / 3;
+            grid-column: 1 / 2;
+        }
+
+        .schedule-grid {
+            display: grid;
+            grid-template-columns: 72px repeat(5, minmax(0, 1fr));
+            gap: 10px;
+            align-items: stretch;
+        }
+        .grid-item {
+            min-height: 54px;
+        }
+
+        .time-col {
+            background: #f1f3fb;
+            border-radius: 12px;
+            min-height: 54px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 800;
+            color: #2f357f;
+            font-size: 12px;
+            line-height: 1.08;
+            padding: 6px 4px;
+            white-space: pre-line;
+        }
+
+        .day-header {
+            background: #2f357f;
+            color: #fff;
+            border-radius: 0 0 12px 12px;
+            min-height: 60px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-weight: 800;
+            font-size: 14px;
+            line-height: 1.15;
+            padding: 8px 6px;
+        }
+
+        .slot-empty {
+            background: transparent;
+        }
+        .slot-break {
+            background: #efeffd;
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 4px;
+            color: #2f357f;
+            font-weight: 800;
+            font-size: 12px;
+            min-height: 54px;
+            text-align: center;
+            padding: 6px 8px;
+        }
+
+        .session-card {
+            height: 100%;
+            min-height: 54px;
+            border-radius: 10px;
+            padding: 10px 10px 8px;
+            background: #fff;
+            box-shadow: 0 1px 0 rgba(20, 20, 60, .04), 0 3px 10px rgba(25, 30, 90, .05);
+            border-top: 4px solid #b9bce6;
+            font-size: 12px;
+            line-height: 1.18;
+            color: #23304f;
+            overflow-x: hidden;
+            overflow-y: auto;
+            scrollbar-width: thin;
+            scrollbar-color: #e2e6f2 #fbfcfe;
+        }
+        .session-card::-webkit-scrollbar {
+            width: 7px;
+        }
+        .session-card::-webkit-scrollbar-track {
+            background: #fbfcfe;
+            border-radius: 999px;
+        }
+        .session-card::-webkit-scrollbar-thumb {
+            background: #e2e6f2;
+            border-radius: 999px;
+            border: 1px solid #fbfcfe;
+        }
+        .session-card::-webkit-scrollbar-thumb:hover {
+            background: #d4daea;
+        }
+        .session-card::-webkit-scrollbar-button {
+            background: #fbfcfe;
+            height: 0;
+            width: 0;
+        }
+        .session-card.keynote {
+            background: #efeffd;
+            border-top-color: #d7d7fb;
+            color: #2f357f;
+            text-align: center;
+            font-weight: 700;
+        }
+        .session-card.special {
+            background: #efeffd;
+            border-top-color: #d7d7fb;
+            color: #2f357f;
+            text-align: center;
+            font-weight: 700;
+        }
+        .session-card.empty-session {
+            background: #fbfbff;
+            border-top-color: #e3e4f3;
+            color: #a0a6c1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-style: italic;
+            text-align: center;
+            width: 100%;
+        }
+
+        /* Paper sessions */
+        .session-card.paper-first {
+            background: #ffffff;
+            border-top-color: #b9bce6;
+            color: #23304f;
+        }
+        .session-card.paper-second {
+            background: #F0F9ED;
+            border-top-color: #b9bce6;
+            color: #1a3a1a;
+        }
+        .session-card.paper-second .session-type {
+            color: #2d5a2d;
+        }
+        .session-card.paper-second .session-roomlabel {
+            color: #2d5a2d;
+        }
+        .session-card.paper-second .session-chair {
+            color: #2d5a2d;
+        }
+        .session-card.paper-second .paper-link {
+            color: #1a3a1a;
+        }
+
+        /* Workshops */
+        .session-card.workshop-first {
+            background: #FDF8F5;
+            border-top-color: #f3cf77;
+            color: #4d2e1a;
+        }
+        .session-card.workshop-first .session-type {
+            color: #7a4d2a;
+        }
+        .session-card.workshop-first .session-roomlabel {
+            color: #7a4d2a;
+        }
+        .session-card.workshop-first .session-chair {
+            color: #7a4d2a;
+        }
+        .session-card.workshop-second {
+            background: #FFFFE1;
+            border-top-color: #f3cf77;
+            color: #3d3d1a;
+        }
+        .session-card.workshop-second .session-type {
+            color: #6b6b2a;
+        }
+        .session-card.workshop-second .session-roomlabel {
+            color: #6b6b2a;
+        }
+        .session-card.workshop-second .session-chair {
+            color: #6b6b2a;
+        }
+
+        .slot-row {
+            display: flex;
+            gap: 6px;
+            height: 100%;
+            align-items: stretch;
+        }
+        .slot-row .session-card {
+            flex: 1 1 0;
+            min-width: 0;
+        }
+        .session-type {
+            display: block;
+            font-weight: 900;
+            font-size: 10px;
+            letter-spacing: .3px;
+            text-transform: uppercase;
+            color: #7a80a3;
+            margin-bottom: 1px;
+        }
+        .session-name {
+            display: block;
+            font-weight: 900;
+            font-size: 12px;
+            color: inherit;
+            margin-bottom: 1px;
+            line-height: 1.2;
+        }
+        .session-roomline {
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            margin-top: 1px;
+            margin-bottom: 2px;
+            flex-wrap: wrap;
+        }
+        .session-roomlabel {
+            font-weight: 900;
+            font-size: 10px;
+            letter-spacing: .15px;
+            color: #6f7696;
+        }
+        .room-link-blue,
+        .room-link-purple {
+            display: inline-block;
+            text-decoration: none;
+            font-weight: 900;
+            font-size: 10px;
+            line-height: 1;
+            padding: 3px 8px;
+            border-radius: 999px;
+        }
+        .room-link-blue {
+            color: #7280e4;
+            background: #eef1ff;
+        }
+        .room-link-purple {
+            color: #96b751;
+            background: #f2f8e5;
+        }
+        .session-chair {
+            display: block;
+            margin-top: 1px;
+            font-weight: 700;
+            color: #6b7190;
+            font-size: 10.5px;
+        }
+        .paper-list {
+            margin-top: 4px;
+            padding-left: 14px;
+            font-size: 10px;
+            line-height: 1.25;
+        }
+        .paper-list li {
+            margin-bottom: 1px;
+        }
+        .paper-link {
+            color: inherit;
+            text-decoration: underline;
+            cursor: pointer;
+        }
+
+        .icon-lunch::before {
+            content: "\1F37D\FE0F";
+        }
+        .icon-coffee::before {
+            content: "☕";
+        }
+        .icon-reception::before {
+            content: "\1F9ED";
+        }
+        .icon-activity::before {
+            content: "\1F377";
+        }
+        .icon-dinner::before {
+            content: "\1F377";
+        }
+        .ico {
+            font-size: 16px;
+        }
+
+        .session-card.paper-first,
+        .session-card.paper-second,
+        .session-card.workshop-first,
+        .session-card.workshop-second {
+            max-height: auto;
+        }
+
+        /* ── FULL‑WIDTH FOOTER ── */
+        .footer-note {
+            grid-row: 3 / 4;
+            grid-column: 1 / 2;
+            padding: 12px 24px;
+            font-size: 12px;
+            color: #5a5f7a;
+            text-align: left;
+            border-top: 1px solid #e9ebf5;
+            background: #fafaff;
+        }
+        .footer-note a {
+            color: #2f357f;
+            text-decoration: none;
+            font-weight: 800;
+        }
+        .footer-note a:hover {
+            text-decoration: underline;
+        }
+
+        @media (max-width: 1200px) {
+            .agenda-wrap {
+                grid-template-columns: 1fr;
+                grid-template-rows: auto auto auto;
+            }
+        }
+        @media (max-width: 900px) {
+            body {
+                padding: 12px;
+            }
+            .schedule-grid {
+                grid-template-columns: 52px repeat(5, minmax(140px, 1fr));
+                overflow-x: auto;
+            }
+            .poster-title h1 {
+                font-size: 26px;
+            }
+            .poster-left {
+                padding: 14px;
+            }
+            .poster-brand img {
+                width: 100px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            body {
+                padding: 10px 8px;
+            }
+            .agenda-wrap {
+                border-radius: 20px;
+            }
+            .poster-left {
+                padding: 12px 12px 10px;
+            }
+            /* restore the original stacked layout on mobile: logo on top, title below, both centered */
+            .brand-title-row {
+                flex-direction: column;
+                gap: 0;
+                margin-bottom: 10px;
+            }
+            .poster-brand {
+                margin-bottom: 8px;
+            }
+            .poster-brand img {
+                width: 68px;
+            }
+            .poster-title h1 {
+                font-size: 23px;
+            }
+            .poster-subtitle {
+                font-size: 13px;
+            }
+            .info-block {
+                margin-top: 14px;
+                margin-bottom: 12px;
+                gap: 10px;
+                flex-direction: row;
+                justify-content: flex-start;
+                align-items: flex-start;
+                flex-wrap: wrap;
+            }
+            .info-row {
+                font-size: 12px;
+                justify-content: flex-start;
+            }
+            .info-icon {
+                width: 28px;
+                height: 28px;
+                font-size: 15px;
+            }
+            .agenda-btn {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                position: sticky;
+                left: 0;
+                z-index: 3;
+                font-size: 16px;
+                letter-spacing: .4px;
+                padding: 11px 12px;
+                margin-bottom: 10px;
+                border-radius: 14px 14px 0 0;
+                min-height: 42px;
+                background: #2f357f;
+            }
+            .poster-right {
+                padding: 10px 8px 14px;
+                overflow-x: auto;
+                -webkit-overflow-scrolling: touch;
+            }
+            .schedule-grid {
+                overflow-x: visible; /* poster-right is the only scroll container here */
+                grid-template-columns: 60px repeat(5, 220px);
+                gap: 10px;
+                width: max-content;
+                min-width: 100%;
+            }
+            .grid-item {
+                min-height: 52px;
+            }
+            .time-col {
+                min-height: 52px;
+                font-size: 12px;
+                padding: 6px 4px;
+                position: sticky;
+                left: 0;
+                z-index: 2;
+                background: #f1f3fb;
+                box-shadow: 2px 0 4px rgba(35, 40, 90, .08);
+            }
+            .day-header {
+                min-height: 58px;
+                font-size: 14px;
+                padding: 7px 6px;
+            }
+            .slot-break {
+                min-height: 52px;
+                font-size: 12px;
+                padding: 6px 8px;
+            }
+            .session-card {
+                min-height: 52px;
+                padding: 9px 10px 8px;
+                font-size: 12px;
+                word-break: normal;
+                overflow-wrap: normal;
+            }
+            .slot-row {
+                gap: 6px;
+            }
+            .session-type {
+                font-size: 10px;
+            }
+            .session-name {
+                font-size: 12px;
+            }
+            .session-roomline {
+                gap: 3px;
+            }
+            .session-roomlabel,
+            .session-chair,
+            .room-link-blue,
+            .room-link-purple {
+                font-size: 10px;
+            }
+            .room-link-blue,
+            .room-link-purple {
+                padding: 3px 8px;
+            }
+            .paper-list {
+                margin-top: 4px;
+                padding-left: 14px;
+                font-size: 10px;
+                line-height: 1.22;
+            }
+            .footer-note {
+                padding: 10px 12px;
+                font-size: 10px;
+            }
+        }
