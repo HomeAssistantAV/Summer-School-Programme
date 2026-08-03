@@ -389,3 +389,4 @@
 <script>const PAPER_PASSWORD="IFIPSC2026";
 document.querySelectorAll(".paper-link").forEach(link=>{link.addEventListener("click",function(e){e.preventDefault();const d=this.getAttribute("href");if(!d||d==="#")return;const p=prompt('This paper is password protected.\n\nEnter the password.\n\nYou can find it in the email with the subject:\n"Practicalities Presenting Summer School".');if(p===null)return;if(p===PAPER_PASSWORD){if(this.hasAttribute("download")){const a=document.createElement("a");a.href=d;a.download=this.getAttribute("download")||"";document.body.appendChild(a);a.click();a.remove();}else{window.open(d,"_blank");}}else alert("Incorrect password.");});});</script></body>
 </html>
+
